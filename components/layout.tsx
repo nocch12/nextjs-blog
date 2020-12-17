@@ -6,7 +6,12 @@ import Link from "next/link";
 const name = "Kohki";
 export const siteTitle = "Kohki's Blog";
 
-export default function Layout({ children, home }) {
+type Props = {
+  children: any;
+  home?: Boolean | undefined;
+}
+
+const Layout = ({ children, home }: Props) => {
   return (
     <div className={styles.container}>
       <Head>
@@ -63,4 +68,5 @@ export default function Layout({ children, home }) {
       )}
     </div>
   );
-}
+};
+export default Layout;
