@@ -1,10 +1,12 @@
+import { GetStaticProps, GetStaticPaths } from "next";
+
 import Layout from "../../components/layout";
 import { getAllPostIds, getPostData } from "../../lib/posts";
 import Date from "../../components/date";
 
-import utilStyles from '../../styles/utils.module.css';
+import utilStyles from "../../styles/utils.module.css";
 
-export default function Post({ postData }) {
+const Post = ({ postData }) => {
   return (
     <Layout>
       <article>
@@ -18,16 +20,18 @@ export default function Post({ postData }) {
   );
 }
 
-export async function getStaticPaths() {
+export default Post;
+
+export const getStaticPaths: GetStaticPaths = async () => {
   // Return a list of possible value for id
   const paths = getAllPostIds();
   return {
     paths,
     fallback: false,
   };
-}
+};
 
-export async function getStaticProps({ params }) {
+export const getStaticProps: GetStaticProps = async ({ params }) => {
   // Fetch necessary data for the blog post using params.id
   const postData = await getPostData(params.id);
   return {
@@ -35,4 +39,4 @@ export async function getStaticProps({ params }) {
       postData,
     },
   };
-}
+};
