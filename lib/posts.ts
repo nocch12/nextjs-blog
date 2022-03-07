@@ -10,29 +10,31 @@ type Post = {
   [key: string]: any;
 }
 
+// postsディレクトリパス
 const postsDirectory = path.join(process.cwd(), "posts");
 
-export function getSortedPostsData() {
-  // Get file names under /posts
+// 記事一覧取得
+export const getSortedPostsData = () => {
+  // /posts配下の記事ファイル一覧を取得
   const fileNames = fs.readdirSync(postsDirectory);
   const allPostsData = fileNames.map((fileName) => {
-    // Remove ".md" from file name to get id
+    // ".md"をファイル名から削除
     const id = fileName.replace(/\.md$/, "");
 
-    // Read markdown file as string
+    // markdownを文字列として取得
     const fullPath = path.join(postsDirectory, fileName);
     const fileContents = fs.readFileSync(fullPath, "utf8");
 
-    // Use gray-matter to parse the post metadata section
+    // gray-matter でメタデータを解析
     const matterResult = matter(fileContents);
 
-    // Combine the data with the id
+    // idと結合して記事データとして返却
     return {
       id,
       ...matterResult.data,
     } as Post;
   });
-  // Sort posts by date
+  // 取得した記事を並び替え
   return allPostsData.sort((a, b) => {
     if (a.date < b.date) {
       return 1;

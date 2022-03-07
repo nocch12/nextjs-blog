@@ -23,7 +23,6 @@ const Post = ({ postData }) => {
 export default Post;
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  // Return a list of possible value for id
   const paths = getAllPostIds();
   return {
     paths,
