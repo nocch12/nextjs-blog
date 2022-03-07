@@ -1,48 +1,82 @@
-import fs from "fs";
-import path from "path";
-import matter from "gray-matter";
-import remark from 'remark'
-import html from 'remark-html'
+import fs from 'fs';
+import path from 'path';
+import matter from 'gray-matter';
+import remark from 'remark';
+import html from 'remark-html';
 
-type Post = {
-  id: string;
-  date: string;
-  [key: string]: any;
-}
+type Fields = 'slug' | 'title' | 'content' | 'date' | 'tags';
 
-// postsディレクトリパス
-const postsDirectory = path.join(process.cwd(), "posts");
+// /postsディレクトリパス
+const postsDirectory = path.join(process.cwd(), 'posts');
 
-// 記事一覧取得
-export const getSortedPostsData = () => {
-  // /posts配下の記事ファイル一覧を取得
-  const fileNames = fs.readdirSync(postsDirectory);
-  const allPostsData = fileNames.map((fileName) => {
-    // ".md"をファイル名から削除
-    const id = fileName.replace(/\.md$/, "");
+// /posts配下にあるディレクトリ名(slug)をすべて取得する
+export const getPostSlugs = () => {
+  // まずはファイル名、ディレクトリ名を両方取得する
+  const allDirents = fs.readdirSync(postsDirectory, { withFileTypes: true });
+  // ディレクトリ名のみに絞り込んで返す
+  return allDirents
+    .filter((dirent) => dirent.isDirectory())
+    .map(({ name }) => name);
+};
 
-    // markdownを文字列として取得
-    const fullPath = path.join(postsDirectory, fileName);
-    const fileContents = fs.readFileSync(fullPath, "utf8");
+/**
+ * 与えられたslugから記事の内容を取得して返す
+ * @param slug
+ * @param fields 取得したい値 (slug | content | title | tags)
+ */
+export const getPostBySlug = (slug: string, fields: Fields[] = []) => {
+  // ファイルを読み込む
+  const fullPath = path.join(postsDirectory, slug, 'index.md');
+  const fileContents = fs.readFileSync(fullPath, 'utf8');
+  const { data, content } = matter(fileContents);
+  type Item = {
+    slug: string;
+    content: string;
+    title: string;
+    date: string;
+    tags: string[];
+  };
 
-    // gray-matter でメタデータを解析
-    const matterResult = matter(fileContents);
+  const items: Item = {
+    slug: '',
+    content: '',
+    title: '',
+    date: '',
+    tags: [],
+  };
 
-    // idと結合して記事データとして返却
-    return {
-      id,
-      ...matterResult.data,
-    } as Post;
-  });
-  // 取得した記事を並び替え
-  return allPostsData.sort((a, b) => {
-    if (a.date < b.date) {
-      return 1;
-    } else {
-      return -1;
+  // 指定された値を取得してくる
+  // slugが指定されたとき、contentが指定されたとき、frontmatterの中身が指定されたときで返却の仕方が異なる
+  fields.forEach((field) => {
+    if (field === 'slug') {
+      items[field] = slug;
+    }
+    if (field === 'content') {
+      items[field] = content;
+    }
+
+    if (field === 'title' || field === 'date' || field === 'tags') {
+      items[field] = data[field];
     }
   });
-}
+
+  return items;
+};
+
+/**
+ * すべての記事から指定したfieldsの値を取得する
+ * @param fields 取得したい値 (slug | content | title | tags)
+ */
+export const getAllPosts = (fields: Fields[] = []) => {
+  const slugs = getPostSlugs();
+  const posts = slugs
+    .map((slug) => getPostBySlug(slug, fields))
+    .sort((a, b) => {
+      return a.date < b.date ? 1 : -1;
+    });
+
+  return posts;
+};
 
 export function getAllPostIds() {
   const fileNames = fs.readdirSync(postsDirectory);
@@ -63,27 +97,27 @@ export function getAllPostIds() {
   return fileNames.map((fileName) => {
     return {
       params: {
-        id: fileName.replace(/\.md$/, ""),
+        id: fileName.replace(/\.md$/, ''),
       },
     };
   });
 }
 
 export async function getPostData(id) {
-  const fullPath = path.join(postsDirectory, `${id}.md`)
-  const fileContents = fs.readFileSync(fullPath, 'utf8')
+  const fullPath = path.join(postsDirectory, `${id}.md`);
+  const fileContents = fs.readFileSync(fullPath, 'utf8');
 
   // Use gray-matter to parse the post metadata section
-  const matterResult = matter(fileContents)
+  const matterResult = matter(fileContents);
   const processedContent = await remark()
     .use(html)
-    .process(matterResult.content)
-  const contentHtml = processedContent.toString()
+    .process(matterResult.content);
+  const contentHtml = processedContent.toString();
 
   // Combine the data with the id
   return {
     id,
     contentHtml,
-    ...matterResult.data
-  }
+    ...matterResult.data,
+  };
 }
