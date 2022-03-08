@@ -5,8 +5,12 @@ import { getAllPosts, getPostBySlug } from '@lib/posts';
 import Date from '@components/date';
 
 import utilStyles from '@styles/utils.module.css';
-import remark from 'remark';
-import html from 'remark-html';
+
+import { unified } from 'unified';
+import remark from 'remark-parse';
+import remark2rehype from 'remark-rehype';
+import html from 'rehype-stringify';
+import rehypeHighlight from 'rehype-highlight';
 
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
 
@@ -33,9 +37,14 @@ export const getStaticProps = async ({ params }) => {
     'slug',
     'tags',
   ]);
-  
+
   // markdown を html に変換
-  const processedContent = await remark().use(html).process(post.content);
+  const processedContent = await unified()
+    .use(remark)
+    .use(remark2rehype)
+    .use(html)
+    .use(rehypeHighlight)
+    .process(post.content);
   const content = processedContent.toString();
 
   return {

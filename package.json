@@ -10,11 +10,15 @@
   "dependencies": {
     "date-fns": "^2.16.1",
     "gray-matter": "^4.0.2",
+    "highlight.js": "^11.4.0",
     "next": "^12.1.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
-    "remark": "^13.0.0",
-    "remark-html": "^13.0.1"
+    "rehype-highlight": "^5.0.2",
+    "rehype-stringify": "^9.0.3",
+    "remark-parse": "^10.0.1",
+    "remark-rehype": "^10.1.0",
+    "unified": "^10.1.2"
   },
   "devDependencies": {
     "@types/node": "^14.14.14",
