@@ -1,7 +1,7 @@
 import Head from 'next/head';
 import Link from 'next/link';
 
-import { Box, Container, Flex } from '@chakra-ui/react';
+import { Box, Container, Flex, Heading, Text } from '@chakra-ui/react';
 import ChakraLink from '@components/ChakraLink';
 
 const name = 'Kohki';
@@ -30,30 +30,31 @@ const Layout = ({ children, home }: Props) => {
         <meta name="og:title" content={siteTitle} />
         <meta name="twitter:card" content="summary_large_image" />
       </Head>
-      <Flex>
-        {home ? (
-          <>
-            <h1>{name}</h1>
-          </>
-        ) : (
-          <>
-            <ChakraLink href="/">
-              <h1>{name}</h1>
-            </ChakraLink>
-          </>
-        )}
-      </Flex>
-      <Box as="main" flexGrow={1}>
-        <Container>{children}</Container>
-        {!home && (
-          <div>
-            <Link href="/">
-              <a>← Back to home</a>
-            </Link>
-          </div>
-        )}
+      {/* ヘッダー */}
+      <Box px={2}>
+        <Flex h={16} alignItems={'center'} justifyContent={'space-between'}>
+          {home ? (
+            <>
+              <Heading as="h1" color="blue.700">{name}</Heading>
+            </>
+          ) : (
+            <>
+              <ChakraLink href="/">
+                <Heading as="h1" colorScheme="orange">{name}</Heading>
+              </ChakraLink>
+            </>
+          )}
+        </Flex>
       </Box>
-      <Flex>footer</Flex>
+      <Box as="main" flexGrow={1}>
+        <Container maxW="container.lg">{children}</Container>
+      </Box>
+      {/* フッター */}
+      <Box px={2} bgColor="gray.100">
+        <Flex h={12} alignItems={'center'} justifyContent={'space-between'}>
+          <Text as="small">&copy; 2022 Kohki Ohno. All rights reserved.</Text>
+        </Flex>
+      </Box>
     </Flex>
   );
 };
