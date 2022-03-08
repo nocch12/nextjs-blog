@@ -1,7 +1,7 @@
-import { InferGetStaticPropsType, NextPage } from 'next';
+import { GetStaticProps, InferGetStaticPropsType, NextPage } from 'next';
 
 import Layout from '@components/layout';
-import { getAllPosts, getPostBySlug } from '@lib/posts';
+import { getAllPosts, getPostBySlug, Post } from '@lib/posts';
 import Date from '@components/date';
 
 import { unified } from 'unified';
@@ -9,6 +9,11 @@ import remark from 'remark-parse';
 import remark2rehype from 'remark-rehype';
 import html from 'rehype-stringify';
 import rehypeHighlight from 'rehype-highlight';
+import { ParsedUrlQuery } from 'querystring';
+
+interface IParams extends ParsedUrlQuery {
+  slug: string;
+}
 
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
 
@@ -26,9 +31,12 @@ export const getStaticPaths = async () => {
   };
 };
 
-export const getStaticProps = async ({ params }) => {
+export const getStaticProps: GetStaticProps<{ post: Post }> = async (
+  context
+) => {
   // path の slug から記事詳細を取得
-  const post = getPostBySlug(params.slug, [
+  const { slug } = context.params as IParams;
+  const post = getPostBySlug(slug, [
     'title',
     'content',
     'date',
