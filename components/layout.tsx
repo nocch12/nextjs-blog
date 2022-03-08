@@ -1,19 +1,20 @@
-import Head from "next/head";
-import styles from "./layout.module.css";
-import utilStyles from "../styles/utils.module.css";
-import Link from "next/link";
+import Head from 'next/head';
+import Link from 'next/link';
 
-const name = "Kohki";
+import { Box, Container, Flex } from '@chakra-ui/react';
+import ChakraLink from '@components/ChakraLink';
+
+const name = 'Kohki';
 export const siteTitle = "Kohki's Blog";
 
 type Props = {
   children: any;
   home?: Boolean | undefined;
-}
+};
 
 const Layout = ({ children, home }: Props) => {
   return (
-    <div className={styles.container}>
+    <Flex direction="column" minH="100vh">
       <Head>
         <link rel="icon" href="/favicon.ico" />
         <meta
@@ -29,44 +30,32 @@ const Layout = ({ children, home }: Props) => {
         <meta name="og:title" content={siteTitle} />
         <meta name="twitter:card" content="summary_large_image" />
       </Head>
-      <header className={styles.header}>
+      <Flex>
         {home ? (
           <>
-            <img
-              src="/images/profile.jpg"
-              className={`${styles.headerHomeImage} ${utilStyles.borderCircle}`}
-              alt={name}
-            />
-            <h1 className={utilStyles.heading2Xl}>{name}</h1>
+            <h1>{name}</h1>
           </>
         ) : (
           <>
-            <Link href="/">
-              <a>
-                <img
-                  src="/images/profile.jpg"
-                  className={`${styles.headerImage} ${utilStyles.borderCircle}`}
-                  alt={name}
-                />
-              </a>
-            </Link>
-            <h2 className={utilStyles.headingLg}>
-              <Link href="/">
-                <a className={utilStyles.colorInherit}>{name}</a>
-              </Link>
-            </h2>
+            <ChakraLink href="/">
+              <h1>{name}</h1>
+            </ChakraLink>
           </>
         )}
-      </header>
-      <main>{children}</main>
-      {!home && (
-        <div className={styles.backToHome}>
-          <Link href="/">
-            <a>← Back to home</a>
-          </Link>
-        </div>
-      )}
-    </div>
+      </Flex>
+      <Box as="main" flexGrow={1}>
+        <Container>{children}</Container>
+        {!home && (
+          <div>
+            <Link href="/">
+              <a>← Back to home</a>
+            </Link>
+          </div>
+        )}
+      </Box>
+      <Flex>footer</Flex>
+    </Flex>
   );
 };
+
 export default Layout;

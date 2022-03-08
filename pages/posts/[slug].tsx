@@ -4,8 +4,6 @@ import Layout from '@components/layout';
 import { getAllPosts, getPostBySlug } from '@lib/posts';
 import Date from '@components/date';
 
-import utilStyles from '@styles/utils.module.css';
-
 import { unified } from 'unified';
 import remark from 'remark-parse';
 import remark2rehype from 'remark-rehype';
@@ -61,8 +59,8 @@ const Post: NextPage<Props> = ({ post }) => {
   return (
     <Layout>
       <article>
-        <h1 className={utilStyles.headingXl}>{post.title}</h1>
-        <div className={utilStyles.lightText}>
+        <h1>{post.title}</h1>
+        <div>
           <Date dateString={post.date} />
         </div>
         <div dangerouslySetInnerHTML={{ __html: post.content }} />

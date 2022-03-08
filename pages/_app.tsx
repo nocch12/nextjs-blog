@@ -1,9 +1,15 @@
-import { AppProps } from 'next/app'
-import "../styles/global.css";
-import  'highlight.js/styles/atom-one-dark.css';
+import { AppProps } from 'next/app';
+import { ChakraProvider } from '@chakra-ui/react';
+import { theme } from '@lib/chakra';
+// シンタックスハイライト用css
+import 'highlight.js/styles/atom-one-dark.css';
 
 const App = ({ Component, pageProps }: AppProps) => {
-  return <Component {...pageProps} />;
-}
+  return (
+    <ChakraProvider theme={theme}>
+      <Component {...pageProps} />;
+    </ChakraProvider>
+  );
+};
 
 export default App;
