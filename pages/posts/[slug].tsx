@@ -80,6 +80,7 @@ const Post: NextPage<Props> = ({ post }) => {
         <Text fontSize="xl" as="h2">
           {post.title}
         </Text>
+        <Box borderLeft={2}>a</Box>
         <div>
           <Date dateString={post.date} />
         </div>

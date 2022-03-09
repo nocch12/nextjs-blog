@@ -240,6 +240,8 @@ URLが長くて読みづらくなる場合や同じリンクを何度も使用�
 <img src="attach:cat.jpg" alt="attach:cat" title="attach:cat" width="200" height="200">
 ```
 
+![Google](https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_92x30dp.png)
+
 # Table 表
 
 `-`と`|`を使ってtableを作成します。
