@@ -10,6 +10,12 @@ import remark2rehype from 'remark-rehype';
 import html from 'rehype-stringify';
 import rehypeHighlight from 'rehype-highlight';
 import { ParsedUrlQuery } from 'querystring';
+import { Box, Text } from '@chakra-ui/react';
+import prism from 'prismjs';
+import { useEffect } from 'react';
+
+
+import "prismjs/themes/prism-tomorrow.css"
 
 interface IParams extends ParsedUrlQuery {
   slug: string;
@@ -64,15 +70,21 @@ export const getStaticProps: GetStaticProps<{ post: Post }> = async (
 };
 
 const Post: NextPage<Props> = ({ post }) => {
+  useEffect(() => {
+    prism.highlightAll();
+  }, []);
+
   return (
     <Layout>
-      <article>
-        <h1>{post.title}</h1>
+      <Box as="article" className="markdown-body">
+        <Text fontSize="xl" as="h2">
+          {post.title}
+        </Text>
         <div>
           <Date dateString={post.date} />
         </div>
         <div dangerouslySetInnerHTML={{ __html: post.content }} />
-      </article>
+      </Box>
     </Layout>
   );
 };
