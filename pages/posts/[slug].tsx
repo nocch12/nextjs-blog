@@ -4,18 +4,9 @@ import Layout from '@components/layout';
 import { getAllPosts, getPostBySlug, Post } from '@lib/posts';
 import Date from '@components/date';
 
-import { unified } from 'unified';
-import remark from 'remark-parse';
-import remark2rehype from 'remark-rehype';
-import html from 'rehype-stringify';
-import rehypeHighlight from 'rehype-highlight';
 import { ParsedUrlQuery } from 'querystring';
-import { Box, Text } from '@chakra-ui/react';
-import prism from 'prismjs';
-import { useEffect } from 'react';
-
-
-import "prismjs/themes/prism-tomorrow.css"
+import { Box, Heading, Text } from '@chakra-ui/react';
+import Markdown from '@components/Markdown';
 
 interface IParams extends ParsedUrlQuery {
   slug: string;
@@ -50,41 +41,24 @@ export const getStaticProps: GetStaticProps<{ post: Post }> = async (
     'tags',
   ]);
 
-  // markdown を html に変換
-  const processedContent = await unified()
-    .use(remark)
-    .use(remark2rehype)
-    .use(html)
-    .use(rehypeHighlight)
-    .process(post.content);
-  const content = processedContent.toString();
-
   return {
     props: {
-      post: {
-        ...post,
-        content,
-      },
+      post,
     },
   };
 };
 
 const Post: NextPage<Props> = ({ post }) => {
-  useEffect(() => {
-    prism.highlightAll();
-  }, []);
-
   return (
     <Layout>
       <Box as="article" className="markdown-body">
-        <Text fontSize="xl" as="h2">
+        <Heading fontSize="4xl" as="h2">
           {post.title}
-        </Text>
-        <Box borderLeft={2}>a</Box>
+        </Heading>
         <div>
           <Date dateString={post.date} />
         </div>
-        <div dangerouslySetInnerHTML={{ __html: post.content }} />
+        <Markdown markdown={post.content} />
       </Box>
     </Layout>
   );
