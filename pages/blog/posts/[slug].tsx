@@ -8,6 +8,7 @@ import { Box, Heading, Tag, Text, Wrap, WrapItem } from '@chakra-ui/react';
 import Markdown from '@components/Markdown/Markdown';
 import Head from 'next/head';
 import { dateFormat } from '@lib/date';
+import { getTitle } from '@lib/site';
 
 interface IParams extends ParsedUrlQuery {
   slug: string;
@@ -53,7 +54,7 @@ const Post: NextPage<Props> = ({ post }) => {
   return (
     <Layout>
       <Head>
-        <title>aaa</title>
+        <title>{getTitle(post.title)}</title>
       </Head>
       <Box as="article" className="markdown-body">
         <Box mb={16}>

@@ -4,6 +4,7 @@ const Document = () => {
   return (
     <Html lang="ja">
       <Head>
+        {/* google fonts */}
         <link
           href="https://fonts.googleapis.com/css2?family=M+PLUS+1p:wght@300;400;500;700&display=swap"
           rel="stylesheet"
