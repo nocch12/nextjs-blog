@@ -5,7 +5,7 @@ import { getAllPosts, getPostBySlug, Post } from '@lib/blog';
 
 import { ParsedUrlQuery } from 'querystring';
 import { Box, Heading, Tag, Text, Wrap, WrapItem } from '@chakra-ui/react';
-import Markdown from '@components/Markdown';
+import Markdown from '@components/Markdown/Markdown';
 import Head from 'next/head';
 import { dateFormat } from '@lib/date';
 
