@@ -5,7 +5,7 @@ import { getAllPosts, getPostBySlug, Post } from '@lib/posts';
 import Date from '@components/date';
 
 import { ParsedUrlQuery } from 'querystring';
-import { Box, Heading, Text } from '@chakra-ui/react';
+import { Box, Heading, Tag, Text, Wrap, WrapItem } from '@chakra-ui/react';
 import Markdown from '@components/Markdown';
 
 interface IParams extends ParsedUrlQuery {
@@ -52,12 +52,21 @@ const Post: NextPage<Props> = ({ post }) => {
   return (
     <Layout>
       <Box as="article" className="markdown-body">
-        <Heading fontSize="4xl" as="h2">
-          {post.title}
-        </Heading>
-        <div>
-          <Date dateString={post.date} />
-        </div>
+        <Box mb={16}>
+          <Text color="gray">
+            <Date dateString={post.date} />
+          </Text>
+          <Heading fontSize="4xl" as="h2" my={4}>
+            {post.title}
+          </Heading>
+          <Wrap spacing={2}>
+            {post.tags.map(tag => (
+              <WrapItem key={tag}>
+                <Tag colorScheme="orange" variant="outline">#{tag}</Tag>
+              </WrapItem>
+            ))}
+          </Wrap>
+        </Box>
         <Markdown markdown={post.content} />
       </Box>
     </Layout>

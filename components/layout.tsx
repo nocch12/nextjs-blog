@@ -1,7 +1,5 @@
 import Head from 'next/head';
-import Link from 'next/link';
-
-import { Box, Container, Flex, Heading, Text } from '@chakra-ui/react';
+import { Box, Center, Container, Flex, Heading, Text } from '@chakra-ui/react';
 import ChakraLink from '@components/ChakraLink';
 
 const name = 'Kohki';
@@ -31,29 +29,36 @@ const Layout = ({ children, home }: Props) => {
         <meta name="twitter:card" content="summary_large_image" />
       </Head>
       {/* ヘッダー */}
-      <Box px={2}>
-        <Flex h={16} alignItems={'center'} justifyContent={'space-between'}>
-          {home ? (
-            <>
-              <Heading as="h1" color="blue.700">{name}</Heading>
-            </>
-          ) : (
-            <>
-              <ChakraLink href="/">
-                <Heading as="h1" colorScheme="orange">{name}</Heading>
-              </ChakraLink>
-            </>
-          )}
-        </Flex>
+      <Box boxShadow="sm">
+        <Container maxW="container.lg">
+          <Flex h={16} alignItems="center" justifyContent="space-between">
+            {home ? (
+              <>
+                <Heading as="h1" colorScheme="red">
+                  {name}
+                </Heading>
+              </>
+            ) : (
+              <>
+                <ChakraLink href="/" color="blue.700">
+                  <Heading as="h1">
+                    {name}
+                  </Heading>
+                </ChakraLink>
+              </>
+            )}
+          </Flex>
+        </Container>
       </Box>
+      {/* メイン */}
       <Box as="main" flexGrow={1}>
-        <Container maxW="container.lg">{children}</Container>
+        <Container maxW="container.lg" pt={8} pb={4}>{children}</Container>
       </Box>
       {/* フッター */}
       <Box px={2} bgColor="gray.100">
-        <Flex h={12} alignItems={'center'} justifyContent={'space-between'}>
+        <Center h={12}>
           <Text as="small">&copy; 2022 Kohki Ohno. All rights reserved.</Text>
-        </Flex>
+        </Center>
       </Box>
     </Flex>
   );
