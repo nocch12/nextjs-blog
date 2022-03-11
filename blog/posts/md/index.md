@@ -1,18 +1,12 @@
 ---
 title: 'markdown'
 date: '2020-01-01'
-tags: ['taga', 'tagB', 'tag3']
-discription: 'discription discription
-discription discription discription discription discription discription discription discription
-discription discription discription discription discription discription discription discription
-discription discription discription discription discription discription discription discription
-discription discription discription discription discription discription discription discription
-discription discription discription discription discription discription discription discription
-discription discription discription discription discription discription discription discription
-'
+tags: ['tagA', 'tagB', 'sample-tag']
+discription: 'マークダウンのスタイル確認用記事です'
 ---
 
-# Block Elements
+# 概要
+マークダウンのスタイル確認用記事です。
 
 ## Headers 見出し
 

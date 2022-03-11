@@ -31,26 +31,22 @@ const Layout = ({ children, home }: Props) => {
         <Container maxW="container.lg">
           <Flex h={16} alignItems="center" justifyContent="space-between">
             {home ? (
-              <>
-                <Heading as="h1" color="blue.700">
-                  {SITE_TITLE}
-                </Heading>
-              </>
+              <Heading as="h1" color="blue.700">
+                {SITE_TITLE}
+              </Heading>
             ) : (
-              <>
-                <ChakraLink href="/" color="blue.700">
-                  <Heading as="h1">
-                    {SITE_TITLE}
-                  </Heading>
-                </ChakraLink>
-              </>
+              <ChakraLink href="/" color="blue.700">
+                <Heading as="h1">{SITE_TITLE}</Heading>
+              </ChakraLink>
             )}
           </Flex>
         </Container>
       </Box>
       {/* メイン */}
       <Box as="main" flexGrow={1}>
-        <Container maxW="container.lg" pt={8} pb={4}>{children}</Container>
+        <Container maxW="container.lg" pt={8} pb={4}>
+          {children}
+        </Container>
       </Box>
       {/* フッター */}
       <Box px={2} bgColor="gray.100">
