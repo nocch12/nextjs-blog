@@ -14,7 +14,7 @@ export type Post = {
 export type Fields = 'slug' | 'title' | 'content' | 'date' | 'tags';
 
 // /postsディレクトリパス
-const postsDirectory = path.join(process.cwd(), 'posts');
+const postsDirectory = path.join(process.cwd(), 'blog/posts');
 
 // /posts配下にあるディレクトリ名(slug)をすべて取得する
 export const getPostSlugs = () => {

@@ -1,7 +1,7 @@
 import { GetStaticProps, InferGetStaticPropsType, NextPage } from 'next';
 
 import Layout from '@components/layout';
-import { getAllPosts, getPostBySlug, Post } from '@lib/posts';
+import { getAllPosts, getPostBySlug, Post } from '@lib/blog';
 import Date from '@components/date';
 
 import { ParsedUrlQuery } from 'querystring';

@@ -2,7 +2,7 @@ import Head from "next/head";
 import Link from "next/link";
 import Date from "../components/date";
 import Layout, { siteTitle } from "../components/layout";
-import { getAllPosts } from "../lib/posts";
+import { getAllPosts } from "@lib/blog";
 import { InferGetStaticPropsType, NextPage } from 'next';
 
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
@@ -29,7 +29,7 @@ const Home: NextPage<Props> = ({ allPostsData }) => {
         <ul>
           {allPostsData.map(({ slug, date, title }) => (
             <li key={slug}>
-              <Link href={`/posts/${slug}`}>
+              <Link href={`/blog/posts/${slug}`}>
                 <a>{title}</a>
               </Link>
               <br />
