@@ -1,9 +1,10 @@
 import Head from "next/head";
 import Link from "next/link";
-import Date from "../components/date";
-import Layout, { siteTitle } from "../components/layout";
+import Layout from "@components/Layout";
 import { getAllPosts } from "@lib/blog";
 import { InferGetStaticPropsType, NextPage } from 'next';
+import { SITE_TITLE } from '@constants/site';
+import { dateFormat } from '@lib/date';
 
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
 
@@ -20,7 +21,7 @@ const Home: NextPage<Props> = ({ allPostsData }) => {
   return (
     <Layout home>
       <Head>
-        <title>{siteTitle}</title>
+        <title>{SITE_TITLE}</title>
       </Head>
 
       {/* Add this <section> tag below the existing <section> tag */}
@@ -34,7 +35,7 @@ const Home: NextPage<Props> = ({ allPostsData }) => {
               </Link>
               <br />
               <small>
-                <Date dateString={date} />
+                {dateFormat(date)}
               </small>
             </li>
           ))}

@@ -1,4 +1,3 @@
-import { Text } from '@chakra-ui/react';
 import { parseISO, format } from "date-fns";
 
 type Props = {
@@ -7,7 +6,7 @@ type Props = {
 
 const Date = ({ dateString }: Props) => {
   const date = parseISO(dateString);
-  return <Text>{format(date, "yyyy.LL.dd")}</Text>;
+  return format(date, "yyyy.LL.dd");
 }
 
 export default Date;

@@ -1,9 +1,7 @@
 import Head from 'next/head';
 import { Box, Center, Container, Flex, Heading, Text } from '@chakra-ui/react';
 import ChakraLink from '@components/ChakraLink';
-
-const name = 'Kohki';
-export const siteTitle = "Kohki's Blog";
+import { SITE_TITLE } from '@constants/site';
 
 type Props = {
   children: any;
@@ -22,10 +20,10 @@ const Layout = ({ children, home }: Props) => {
         <meta
           property="og:image"
           content={`https://og-image.now.sh/${encodeURI(
-            siteTitle
+            SITE_TITLE
           )}.png?theme=light&md=0&fontSize=75px&images=https%3A%2F%2Fassets.vercel.com%2Fimage%2Fupload%2Ffront%2Fassets%2Fdesign%2Fnextjs-black-logo.svg`}
         />
-        <meta name="og:title" content={siteTitle} />
+        <meta name="og:title" content={SITE_TITLE} />
         <meta name="twitter:card" content="summary_large_image" />
       </Head>
       {/* ヘッダー */}
@@ -34,15 +32,15 @@ const Layout = ({ children, home }: Props) => {
           <Flex h={16} alignItems="center" justifyContent="space-between">
             {home ? (
               <>
-                <Heading as="h1" colorScheme="red">
-                  {name}
+                <Heading as="h1" colorScheme="red" fontFamily="'Titillium Web'">
+                  {SITE_TITLE}
                 </Heading>
               </>
             ) : (
               <>
                 <ChakraLink href="/" color="blue.700">
                   <Heading as="h1">
-                    {name}
+                    {SITE_TITLE}
                   </Heading>
                 </ChakraLink>
               </>

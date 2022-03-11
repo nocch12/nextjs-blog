@@ -1,12 +1,13 @@
 import { GetStaticProps, InferGetStaticPropsType, NextPage } from 'next';
 
-import Layout from '@components/layout';
+import Layout from '@components/Layout';
 import { getAllPosts, getPostBySlug, Post } from '@lib/blog';
-import Date from '@components/date';
 
 import { ParsedUrlQuery } from 'querystring';
 import { Box, Heading, Tag, Text, Wrap, WrapItem } from '@chakra-ui/react';
 import Markdown from '@components/Markdown';
+import Head from 'next/head';
+import { dateFormat } from '@lib/date';
 
 interface IParams extends ParsedUrlQuery {
   slug: string;
@@ -51,18 +52,21 @@ export const getStaticProps: GetStaticProps<{ post: Post }> = async (
 const Post: NextPage<Props> = ({ post }) => {
   return (
     <Layout>
+      <Head>
+        <title>aaa</title>
+      </Head>
       <Box as="article" className="markdown-body">
         <Box mb={16}>
-          <Text color="gray">
-            <Date dateString={post.date} />
-          </Text>
+          <Text color="gray">{dateFormat(post.date)}</Text>
           <Heading fontSize="4xl" as="h2" my={4}>
             {post.title}
           </Heading>
           <Wrap spacing={2}>
-            {post.tags.map(tag => (
+            {post.tags.map((tag) => (
               <WrapItem key={tag}>
-                <Tag colorScheme="orange" variant="outline">#{tag}</Tag>
+                <Tag colorScheme="orange" variant="outline">
+                  #{tag}
+                </Tag>
               </WrapItem>
             ))}
           </Wrap>

@@ -35,14 +35,22 @@ type Props = {
   markdown: string;
 };
 
+// マークダウンを整形
 const Markdown = ({ markdown }: Props) => {
   return (
     // html化されたマークダウンのスタイリング
     <Box
       sx={{
         // テキスト
-        h1: { fontSize: '3xl', fontWeight: 'bold', my: 4 },
-        h2: { fontSize: '3xl', fontWeight: 'bold', my: 4 },
+        h2: {
+          fontSize: '3xl',
+          fontWeight: 'bold',
+          mt: 12,
+          mb: 4,
+          borderBottomWidth: 6,
+          borderBottomColor: 'blue.700',
+          borderBottomStyle: 'double',
+        },
         h3: { fontSize: '2xl', fontWeight: 'bold', my: 4 },
         h4: { fontSize: 'xl', fontWeight: 'bold', my: 4 },
         h5: { fontSize: 'lg', fontWeight: 'bold', my: 4 },
@@ -80,7 +88,10 @@ const Markdown = ({ markdown }: Props) => {
         },
       }}
     >
-      <ReactMarkdown children={markdown} components={{ code: CodeBlock }} />
+      <ReactMarkdown
+        children={markdown}
+        components={{ h1: 'h2', code: CodeBlock }}
+      />
     </Box>
   );
 };
