@@ -15,7 +15,7 @@ const Layout = ({ children, home }: Props) => {
         <link rel="icon" href="/favicon.ico" />
         <meta
           name="description"
-          content="Learn how to build a personal website using Next.js"
+          content="nocchのブログ。技術記事から関係ないことまで気ままに投稿します。"
         />
         <meta
           property="og:image"
@@ -32,7 +32,7 @@ const Layout = ({ children, home }: Props) => {
           <Flex h={16} alignItems="center" justifyContent="space-between">
             {home ? (
               <>
-                <Heading as="h1" colorScheme="red" fontFamily="'Titillium Web'">
+                <Heading as="h1" color="blue.700">
                   {SITE_TITLE}
                 </Heading>
               </>
