@@ -9,6 +9,7 @@ import Markdown from '@components/Markdown/Markdown';
 import Head from 'next/head';
 import { dateFormat } from '@lib/date';
 import { getTitle } from '@lib/site';
+import MarkdownIndex from '@components/Markdown/MarkdownIndex';
 
 interface IParams extends ParsedUrlQuery {
   slug: string;
@@ -72,6 +73,7 @@ const Post: NextPage<Props> = ({ post }) => {
             ))}
           </Wrap>
         </Box>
+        <MarkdownIndex markdown={post.content} />
         <Markdown markdown={post.content} />
       </Box>
     </Layout>

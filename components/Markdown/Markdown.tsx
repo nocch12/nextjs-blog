@@ -15,10 +15,9 @@ type Props = {
   markdown: string;
 };
 
-// マークダウンを整形
+// マークダウンをparseしてスタイリング
 const Markdown = ({ markdown }: Props) => {
   return (
-    // html化されたマークダウンのスタイリング
     // 見出し6は使わない
     <ReactMarkdown
       children={markdown}
