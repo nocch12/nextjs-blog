@@ -1,7 +1,7 @@
 import Head from 'next/head';
 import { Box, Center, Container, Flex, Heading, Text } from '@chakra-ui/react';
-import ChakraLink from '@components/ChakraLink';
-import { SITE_TITLE } from '@constants/site';
+import ChakraLink from '$components/ChakraLink';
+import { SITE_TITLE } from '$constants/site';
 
 type Props = {
   children: any;

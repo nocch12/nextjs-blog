@@ -8,7 +8,7 @@ import {
 import { TriangleDownIcon, TriangleUpIcon } from '@chakra-ui/icons';
 import ReactMarkdown from 'react-markdown';
 import { HeadingProps } from 'react-markdown/lib/ast-to-react';
-import useCollapse from '@hooks/useCollape';
+import useCollapse from '$hooks/useCollape';
 
 type Props = {
   markdown: string;

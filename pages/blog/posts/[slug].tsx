@@ -1,15 +1,15 @@
 import { GetStaticProps, InferGetStaticPropsType, NextPage } from 'next';
 
-import Layout from '@components/Layout';
-import { getAllPosts, getPostBySlug, Post } from '@lib/blog';
+import Layout from '$components/Layout';
+import { getAllPosts, getPostBySlug, Post } from '$lib/blog';
 
 import { ParsedUrlQuery } from 'querystring';
 import { Box, Heading, Tag, Text, Wrap, WrapItem } from '@chakra-ui/react';
-import Markdown from '@components/Markdown/Markdown';
+import Markdown from '$components/Markdown/Markdown';
 import Head from 'next/head';
-import { dateFormat } from '@lib/date';
-import { getTitle } from '@lib/site';
-import MarkdownIndex from '@components/Markdown/MarkdownIndex';
+import { dateFormat } from '$lib/date';
+import { getTitle } from '$lib/site';
+import MarkdownIndex from '$components/Markdown/MarkdownIndex';
 
 interface IParams extends ParsedUrlQuery {
   slug: string;
@@ -18,7 +18,7 @@ interface IParams extends ParsedUrlQuery {
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
 
 export const getStaticPaths = async () => {
-  const posts = getAllPosts(['slug']);
+  const posts = await getAllPosts(['slug']);
   return {
     paths: posts.map((post) => {
       return {
@@ -36,7 +36,7 @@ export const getStaticProps: GetStaticProps<{ post: Post }> = async (
 ) => {
   // path の slug から記事詳細を取得
   const { slug } = context.params as IParams;
-  const post = getPostBySlug(slug, [
+  const post = await getPostBySlug(slug, [
     'title',
     'content',
     'date',
@@ -59,10 +59,12 @@ const Post: NextPage<Props> = ({ post }) => {
       </Head>
       <Box as="article" className="markdown-body">
         <Box mb={16}>
+          {/* 記事タイトル */}
           <Text color="gray">{dateFormat(post.date)}</Text>
           <Heading fontSize="4xl" as="h2" my={4}>
             {post.title}
           </Heading>
+          {/* タグ */}
           <Wrap spacing={2}>
             {post.tags.map((tag) => (
               <WrapItem key={tag}>
@@ -73,7 +75,9 @@ const Post: NextPage<Props> = ({ post }) => {
             ))}
           </Wrap>
         </Box>
+        {/* 見出し */}
         <MarkdownIndex markdown={post.content} />
+        {/* 本文 */}
         <Markdown markdown={post.content} />
       </Box>
     </Layout>

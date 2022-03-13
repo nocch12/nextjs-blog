@@ -1,7 +1,7 @@
 import { Box, Heading, Text } from '@chakra-ui/react';
 import Link from './ChakraLink';
-import { dateFormat } from '@lib/date';
-import { Post } from '@lib/blog';
+import { dateFormat } from '$lib/date';
+import { Post } from '$lib/blog';
 
 const PostItem = ({ slug, title, date, discription, tags }: Post) => {
   return (

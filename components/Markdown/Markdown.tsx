@@ -1,12 +1,10 @@
 import {
-  Box,
-  Heading,
-  Link,
   OrderedList,
   Text,
   UnorderedList,
 } from '@chakra-ui/react';
 import ReactMarkdown from 'react-markdown';
+import AnchorLink from './AnchorLink';
 import Blockquote from './Blockquote';
 import CodeBlock from './CodeBlock';
 import { H2, H3, H4, H5, H6 } from './Headings';
@@ -28,7 +26,7 @@ const Markdown = ({ markdown }: Props) => {
         h4: H5,
         h5: H6,
         p: (props) => <Text my={4} {...props} />,
-        a: (props) => <Link color="blue" {...props} />,
+        a: AnchorLink,
         ul: ({ ordered, ...props }) => <UnorderedList {...props} />,
         ol: ({ ordered, ...props }) => <OrderedList {...props} />,
         code: CodeBlock,

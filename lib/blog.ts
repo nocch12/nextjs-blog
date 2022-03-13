@@ -1,17 +1,9 @@
+import { URL_PATTERN } from '$constants/string';
+import { Fields, OgpData, Post } from '$types/blog';
 import fs from 'fs';
-import path from 'path';
 import matter from 'gray-matter';
-
-export type Post = {
-  slug: string;
-  content: string;
-  discription: string;
-  title: string;
-  date: string;
-  tags: string[];
-};
-
-export type Fields = 'slug' | 'title' | 'content' | 'date' | 'tags' | 'discription';
+import { JSDOM } from 'jsdom';
+import path from 'path';
 
 // /postsディレクトリパス
 const postsDirectory = path.join(process.cwd(), 'blog/posts');
@@ -31,7 +23,7 @@ export const getPostSlugs = () => {
  * @param slug
  * @param fields 取得したい値 (slug | content | title | tags)
  */
-export const getPostBySlug = (slug: string, fields: Fields[] = []) => {
+export const getPostBySlug = async (slug: string, fields: Fields[] = []) => {
   // ファイルを読み込む
   const fullPath = path.join(postsDirectory, slug, 'index.md');
   const fileContents = fs.readFileSync(fullPath, 'utf8');
@@ -45,16 +37,19 @@ export const getPostBySlug = (slug: string, fields: Fields[] = []) => {
     title: '',
     date: '',
     tags: [],
+    ogpDatas: [],
   };
 
   // 指定された値を取得してくる
   // slugが指定されたとき、contentが指定されたとき、frontmatterの中身が指定されたときで返却の仕方が異なる
-  fields.forEach((field) => {
+  fields.forEach(async (field) => {
     if (field === 'slug') {
       items[field] = slug;
     }
     if (field === 'content') {
-      items[field] = content;
+      items[field] = replaceAnchorLink(content);
+      items['ogpDatas'] = await getOgpDatas(content);
+      console.log(items['ogpDatas']);
     }
 
     if (['title', 'discription', 'date', 'tags'].includes(field)) {
@@ -63,9 +58,7 @@ export const getPostBySlug = (slug: string, fields: Fields[] = []) => {
       }
     }
   });
-  console.log(items);
-  
-  
+
   return items;
 };
 
@@ -73,13 +66,69 @@ export const getPostBySlug = (slug: string, fields: Fields[] = []) => {
  * すべての記事から指定したfieldsの値を取得する
  * @param fields 取得したい値 (slug | content | title | tags)
  */
-export const getAllPosts = (fields: Fields[] = []) => {
+export const getAllPosts = async (fields: Fields[] = []) => {
   const slugs = getPostSlugs();
-  const posts = slugs
-    .map((slug) => getPostBySlug(slug, fields))
-    .sort((a, b) => {
-      return a.date < b.date ? 1 : -1;
-    });
+  const posts = await Promise.all(
+    slugs.map(async (slug) => await getPostBySlug(slug, fields))
+  );
 
-  return posts;
+  return posts.sort((a, b) => {
+    return a.date < b.date ? 1 : -1;
+  });
+};
+
+const replaceAnchorLink = (content: string) => {
+  // 単一行でURLベタ起きの個所はリンク設定
+  const newContent = content.replaceAll(URL_PATTERN, '[$&]($&)');
+  return newContent;
+};
+
+const getOgpDatas = async (content: string): Promise<OgpData[]> => {
+  const urls = content.match(URL_PATTERN) || [];
+
+  // 各URLごとにOGPデータ取得
+  const ogpDatas = await Promise.all(
+    urls.map(async (url) => {
+      return await fetch(url)
+        .then((res) => res.text())
+        .then((text) => {
+          const metaData: OgpData = {
+            url,
+            title: '',
+            image: '',
+            site_name: '',
+            type: '',
+            description: '',
+          };
+          const doms = new JSDOM(text);
+          const metas = doms.window.document.getElementsByTagName('meta');
+
+          // ogpのデータを抽出
+          for (let i = 0; i < metas.length; i++) {
+            const pro = metas[i].getAttribute('property') || '';
+            switch (pro) {
+              case 'og:title':
+                metaData.title = metas[i].getAttribute('content') || '';
+                break;
+              case 'og:image':
+                metaData.image = metas[i].getAttribute('content') || '';
+                break;
+              case 'og:type':
+                metaData.type = metas[i].getAttribute('content') || '';
+                break;
+              case 'og:site_name':
+                metaData.site_name = metas[i].getAttribute('content') || '';
+                break;
+              case 'og:description':
+                metaData.description = metas[i].getAttribute('content') || '';
+                break;
+            }
+          }
+
+          return metaData;
+        });
+    })
+  );
+
+  return ogpDatas.filter((ogp) => ogp);
 };

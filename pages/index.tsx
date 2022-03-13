@@ -1,15 +1,15 @@
 import Head from "next/head";
-import Layout from "@components/Layout";
-import { getAllPosts } from "@lib/blog";
+import Layout from "$components/Layout";
+import { getAllPosts } from "$lib/blog";
 import { InferGetStaticPropsType, NextPage } from 'next';
-import PostItem from '@components/PostItem';
+import PostItem from '$components/PostItem';
 import { Box, Heading, Stack } from '@chakra-ui/react';
-import { getTitle } from '@lib/site';
+import { getTitle } from '$lib/site';
 
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
 
 export async function getStaticProps() {
-  const allPostsData = getAllPosts(['slug', 'title', 'discription', 'date']);
+  const allPostsData = await getAllPosts(['slug', 'title', 'discription', 'date']);
   return {
     props: {
       allPostsData,
