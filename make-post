@@ -1,0 +1,22 @@
+#!/bin/bash
+
+SLUG=$1;
+
+# 引数チェック
+if [ -z $SLUG ] ; then
+  echo 'slugを引数として入力してください'
+  exit 0;
+fi
+
+# ディレクトリチェック
+DIR=./blog/posts/$SLUG;
+
+# 引数チェック
+if [ -e $DIR ] ; then
+  echo "slug[$SLUG]の記事は既に存在します"
+  echo $DIR
+  exit 0;
+fi
+ 
+mkdir $DIR;
+cp ./constants/template.md $DIR/index.md;
