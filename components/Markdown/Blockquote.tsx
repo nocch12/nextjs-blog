@@ -5,6 +5,7 @@ import { Box, BoxProps } from '@chakra-ui/react';
 const Blockquote = (props: PropsWithChildren<BoxProps>) => {
   return (
     <Box
+      {...props}
       as="blockquote"
       pl={4}
       position="relative"

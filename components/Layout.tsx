@@ -44,7 +44,7 @@ const Layout = ({ children, home }: Props) => {
       </Box>
       {/* メイン */}
       <Box as="main" flexGrow={1}>
-        <Container maxW="container.lg" pt={8} pb={4}>
+        <Container maxW="container.lg" py={8}>
           {children}
         </Container>
       </Box>
