@@ -42,22 +42,23 @@ export const getPostBySlug = async (slug: string, fields: Fields[] = []) => {
 
   // 指定された値を取得してくる
   // slugが指定されたとき、contentが指定されたとき、frontmatterの中身が指定されたときで返却の仕方が異なる
-  fields.forEach(async (field) => {
-    if (field === 'slug') {
-      items[field] = slug;
-    }
-    if (field === 'content') {
-      items[field] = replaceAnchorLink(content);
-      items['ogpDatas'] = await getOgpDatas(content);
-      console.log(items['ogpDatas']);
-    }
-
-    if (['title', 'discription', 'date', 'tags'].includes(field)) {
-      if (data[field]) {
-        items[field] = data[field];
+  await Promise.all(
+    fields.map(async (field) => {
+      if (field === 'slug') {
+        items[field] = slug;
       }
-    }
-  });
+      if (field === 'content') {
+        items[field] = replaceAnchorLink(content);
+        items['ogpDatas'] = await getOgpDatas(content);
+      }
+
+      if (['title', 'discription', 'date', 'tags'].includes(field)) {
+        if (data[field]) {
+          items[field] = data[field];
+        }
+      }
+    })
+  );
 
   return items;
 };

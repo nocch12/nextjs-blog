@@ -1,7 +1,7 @@
 import { GetStaticProps, InferGetStaticPropsType, NextPage } from 'next';
 
 import Layout from '$components/Layout';
-import { getAllPosts, getPostBySlug, Post } from '$lib/blog';
+import { getAllPosts, getPostBySlug } from '$lib/blog';
 
 import { ParsedUrlQuery } from 'querystring';
 import { Box, Heading, Tag, Text, Wrap, WrapItem } from '@chakra-ui/react';
@@ -10,6 +10,7 @@ import Head from 'next/head';
 import { dateFormat } from '$lib/date';
 import { getTitle } from '$lib/site';
 import MarkdownIndex from '$components/Markdown/MarkdownIndex';
+import { Post } from '$types/blog';
 
 interface IParams extends ParsedUrlQuery {
   slug: string;
@@ -51,7 +52,9 @@ export const getStaticProps: GetStaticProps<{ post: Post }> = async (
   };
 };
 
-const Post: NextPage<Props> = ({ post }) => {
+const PostPage: NextPage<Props> = ({ post }) => {
+  console.log(post);
+  
   return (
     <Layout>
       <Head>
@@ -78,10 +81,10 @@ const Post: NextPage<Props> = ({ post }) => {
         {/* 見出し */}
         <MarkdownIndex markdown={post.content} />
         {/* 本文 */}
-        <Markdown markdown={post.content} />
+        <Markdown ogpDatas={post.ogpDatas} markdown={post.content} />
       </Box>
     </Layout>
   );
 };
 
-export default Post;
+export default PostPage;

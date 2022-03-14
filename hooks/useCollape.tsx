@@ -1,5 +1,5 @@
 import { Collapse, useDisclosure } from '@chakra-ui/react';
-import { PropsWithChildren, ReactElement } from 'react';
+import { ReactElement } from 'react';
 
 const useCollapse = () => {
   const { isOpen, onToggle } = useDisclosure();
