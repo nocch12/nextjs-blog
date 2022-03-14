@@ -53,8 +53,6 @@ export const getStaticProps: GetStaticProps<{ post: Post }> = async (
 };
 
 const PostPage: NextPage<Props> = ({ post }) => {
-  console.log(post);
-  
   return (
     <Layout>
       <Head>

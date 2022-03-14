@@ -52,5 +52,5 @@ export const H5 = (props: Props) => {
 };
 
 export const H6 = (props: Props) => {
-  return <Heading as="h6" fontWeight="bold" my={4} {...props} />;
+  return <Heading as="h6" fontSize="md" fontWeight="bold" my={4} {...props} />;
 };
